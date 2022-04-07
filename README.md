@@ -1,3 +1,3 @@
 # pratice_frontend
 
-<a href="">1. 이력서 (HTML)</a>
+1.<a href=""> 이력서 (HTML)</a>
