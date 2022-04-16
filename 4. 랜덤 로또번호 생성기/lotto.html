@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<style type="text/css">
+
+.container {
+	width: 300px; height: 400px;
+	margin: 30px auto;
+	padding: 15px; 
+	text-align: center;
+	border: 1px solid black;
+}
+
+div#box {
+	margin: 10px 15px; padding: 10px 25px; 
+	text-align: left;
+	width: 250px; color: blue;
+}
+
+
+</style>
+
+<script type="text/javascript">
+
+function lotto() {
+	var objCount = document.getElementById("count");
+	var objBox = document.getElementById("box");
+	
+	let count = objCount.value;
+	
+	if( ! /^[1-5]{1}$/.test(count) ) {
+		alert("로또 개수는 1~5 사이만 가능합니다.");
+		objCount.focus();
+		return;
+	}
+	
+	count = parseInt(count);
+	
+	
+	// 1 ~ 45까지 난수를 이용하여 작성 => Set()이용해서 작성
+	let out = "";
+	
+	let set = new Set();
+	for(let i=0; i<count; i++){
+		set.clear();
+		while(set.size < 6) {
+			let l_num = Math.floor(Math.random() * 45) + 1;
+			set.add(l_num);
+		}
+		
+		// 배열로 바꿔서 오름차순 정렬
+		var arr = Array.from(set);
+		arr.sort( (a, b) => a-b );
+		
+		out += (i+1) + "번째 번호 : " + arr.join() + "<br>";
+	}
+		
+	objBox.innerHTML = out;
+	
+}
+
+</script>
+</head>
+
+
+<body>
+<div class="container">
+	<h3>랜덤 로또 번호</h3>
+	<p></p>
+	<input type="text" id="count" placeholder="구매개수">
+	<button type="button" onclick="lotto();">구매</button>
+
+	<div id="box"></div>
+</div>
+
+</body> </html>
