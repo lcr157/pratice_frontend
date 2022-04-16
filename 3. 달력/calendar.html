@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="stylesheet" href="callendar.css" type="text/css">
+
+<script type="text/javascript">
+
+function calendar(y, m) {
+	// 매개변수의 월(y), 일(m)을 가지고 해당 년 월 1일의 날짜정볼르 가져온다.
+	let date = new Date(y, m-1, 1);
+	y = date.getFullYear();
+	m = date.getMonth()+1;	// 0~11(1월~12월)
+	
+	let w = date.getDay();  // 요일(0~6)(일~토)
+	let week = ['일', '월', '화', '수', '목', '금', '토'];  // 배열
+	
+	
+	// 시스템 날짜
+	let now = new Date();
+	let ny = now.getFullYear();
+	let nm = now.getMonth() + 1;
+	let nd = now.getDate();
+	
+	let out = '<div class="subject">';
+	out += '<span onclick="calendar('+y+','+(m-1)+');">&lt;</span>&nbsp;&nbsp;';
+	out += '<label>' + y + '년' + m + '월</label>&nbsp;&nbsp;';
+	out += '<span onclick="calendar('+y+','+(m+1)+');">&gt;</span>';
+	out += '</div>';
+	
+	/*
+	<div class="subject">
+		<span onclick="calendar(y, m-1);"> < </span>
+		<label> y년m월</label>
+		<span onclick="calendar(y, m+1)"> > </span>
+	</div>
+	*/
+	
+	
+	// 테이블태그를 이용한 달력
+	out += "<table>";
+	// 첫번째 행은 일 ~ 토 까지 요일을 만듬
+	out += "<tr>";
+	for(let i=0; i<week.length; i++) {
+		out += "<td>" + week[i] + "</td>";
+	}
+	out += "</tr>";
+	 
+	// 1일의 앞부분은 이전달로 채워야된다.
+	// 행의 개수 = row -> 한 주 끝날때마다 행을 추가
+	let s, n;
+	let row = 1;
+	let preDate = new Date(y, m-1, 0);
+	let preYear = preDate.getFullYear();
+	let preMonth = preDate.getMonth() + 1;
+	let preLastDay = preDate.getDate();
+	let preDay = preLastDay - w;
+	s = preYear+"-"+(preMonth>9?preMonth:"0"+preMonth)+"-";
+	out += "<tr>";
+	for(let i=0; i<w; i++) {
+		n = ++preDay;
+		out += "<td class='gray' title='" + (s + (n>9?n:"0"+n)) + "'>" + n + "</td>";
+	}
+	
+	let cls;
+	let lastDay = (new Date(y, m, 0)).getDate();
+	s = y + "-" + (m>9?m:"0"+m) + "-";
+	for(let i=1; i<=lastDay; i++) {
+		cls = y===ny && m===nm && i===nd ? ' today ' : '';
+		
+		out += "<td class='"+cls+"' title='"+(s+(i>9?i:"0"+i))+"'>" + i + "</td>";
+		if(i !== lastDay && ++w%7 === 0) {
+			row++;
+			out += "</tr><tr>";
+		}
+	}
+	
+	// 마지막 날짜 뒷 부분
+	let nextDate = new Date(y, m, 1);
+	let nextYear = nextDate.getFullYear();
+	let nextMonth = nextDate.getMonth() + 1;
+	s = nextYear + "-" + (nextMonth>9?nextMonth:"0"+nextMonth) + "-";
+	
+	let nextDay = 0;
+	for(let i=w%7; i<6; i++) {
+		++nextDay;
+		out += "<td class='gray' title='" + s + (nextDay>9?nextDay:"0"+nextDay) + "'>"
+			+ (nextDay) + "</td>";
+	}
+	
+	out += "</tr>";
+	
+	for(let r=row; r<6; r++) {
+		out += "<tr>";
+		for(let i=0; i<7; i++) {
+			++nextDay;
+			out += "<td class='gray' title='" + s + (nextDay>9?nextDay:"0"+nextDay) + "'>"
+				+ (nextDay) + "</td>";
+		}
+		out += "</tr>";
+	}
+	
+	out += "</table>";
+	
+	out += "<div class='footer'><span onclick='todayDisp();'>오늘날짜로</span></div>";
+	
+	document.getElementById('calendarLayout').innerHTML = out;
+}
+
+
+function todayDisp() {
+	let now = new Date();
+	let y = now.getFullYear();
+	let m = now.getMonth() + 1;
+	
+	calendar(y, m);
+}
+
+
+window.onload = () => todayDisp();
+
+</script> </head>
+
+
+<body>
+
+<div id="calendarLayout"></div>
+
+</body> </html>
