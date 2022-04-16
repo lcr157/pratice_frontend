@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+.table1 {
+	width: 700px; 
+	margin: 0 auto;
+	border-collapse : collapse;
+}
+
+.table1 tr {
+	text-align : center;
+	height: 40px;
+}
+
+.table1 th {
+	background: skyblue;
+}
+
+p {
+	width: 700px;
+	margin: 0 auto;
+}
