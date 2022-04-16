@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 500px;
+	height: 350px;
+	border: 1px solid #eee;
+	margin: 30px auto;
+}
+
+.box {
+	margin: 10px;
+}
+
+.box > p {
+	width: 400px;
+}
+
+.box >p > span, .box > .date_birth {
+	color: #6799FF;
+}
+
+.box > .reset {
+	background: #fff;
+	color: #5D5D5D;
+}
+
+.box > .reset:hover {
+	background: #BDBDBD;
+}
+
+.btn {
+	background: #5D5D5D;
+	color: #fff;
+}
+
+.btn:hover {
+	background: #BDBDBD;
+}
+
+.box > p > .inputs_date_after, .box > p > .inputs_reach, .box > .inputs_date_birth {
+	width: 120px;
+} 

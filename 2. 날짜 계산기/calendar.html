@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>날짜 계산기</title>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+<link rel="stylesheet" href="calendar.css" type="text/css">
+
+<script type="text/javascript">
+
+// 일째 되는 날
+function click_date_after() {
+	let inputs = document.querySelector(".inputs").value;
+	
+	// 형식
+	if(inputs.length != 8) {
+		alert("형식이 맞지않습니다.");
+		document.querySelector(".inputs").focus();
+		return;
+	}
+	
+	let date_after = document.querySelector(".inputs_date_after").value;
+	
+	// 형식
+	if(date_after.length == 0) {
+		alert("일수를 입력하세요.");
+		document.querySelector(".inputs_date_after").focus();
+		return;
+	}
+	
+	// 입력받은 년월일로 설정
+	let y = parseInt(inputs.substr(0,4));
+	let m = parseInt(inputs.substr(4,2)) - 1;
+	let d = parseInt(inputs.substr(6));
+	let now = new Date(y, m, d);
+	
+	// 몇일 후 인지 정수로 변환
+	date_after = parseInt(date_after.substr(0)) -1;
+	
+	// 몇일 후를 더해준다.
+	now.setDate(now.getDate() + date_after);
+	
+	// 더한 후의 년월일 가져오기
+	y = now.getFullYear();
+	m = now.getMonth() + 1;
+	d = now.getDate();
+	
+	// 결과
+	let result = "";
+	result = y + "-" + m + "-" + d;
+	document.querySelector(".date_after").innerHTML = result;
+}
+
+
+// 까지 며칠
+function click_reach() {
+	
+	let inputs = document.querySelector(".inputs").value;
+	
+	// 형식
+	if(inputs.length != 8) {
+		alert("형식이 맞지않습니다.");
+		document.querySelector(".inputs").focus();
+		return;
+	}
+	
+	// 원하는 년월일
+	let inputs_reach = document.querySelector(".inputs_reach").value;
+	
+	// 형식
+	if(inputs_reach.length != 8) {
+		alert("형식이 맞지않습니다.");
+		document.querySelector(".inputs_reach").focus();
+		return;
+	}
+	
+	// 기준 년월일과 입력받은 년월일 구해서 Date()로 변환
+	let std_y = parseInt(inputs.substr(0,4));
+	let std_m = parseInt(inputs.substr(4,2)) - 1;
+	let std_d = parseInt(inputs.substr(6));
+	let std = new Date(std_y, std_m, std_d);
+	
+	let inp_y = parseInt(inputs_reach.substr(0,4));
+	let inp_m = parseInt(inputs_reach.substr(4,2)) - 1;
+	let inp_d = parseInt(inputs_reach.substr(6));
+	let inp = new Date(inp_y, inp_m, inp_d+1);
+	
+	// 초 단위로 비교하여 날짜 구하기(getTime()은 밀리초로 가져와서 
+	// * 1000 => 초, * 60 => 분, *60 => 시, *24 => 일 로 변경해야된다.
+	let dif = inp.getTime() - std.getTime();
+	dif = dif / (1000*60*60*24);
+	
+	// 결과
+	let result = "";
+	result = dif + "일";
+	document.querySelector(".reach").innerHTML = result;
+}
+
+
+// 나이 계산
+function click_date_birth() {
+	let inputs = document.querySelector(".inputs").value;
+	
+	// 형식
+	if(inputs.length != 8) {
+		alert("형식이 맞지않습니다.");
+		document.querySelector(".inputs").focus();
+		return;
+	}
+	
+	// 생년월일 입력
+	let date_birth = document.querySelector(".inputs_date_birth").value;
+	
+	// 형식
+	if(date_birth.length != 8) {
+		alert("형식이 맞지않습니다.");
+		document.querySelector(".inputs_date_birth").focus();
+		return;
+	}
+	
+	// 기준 년월일과 입력받은 년월일 구해서 Date()로 변환
+	let std_y = parseInt(inputs.substr(0,4));
+	let std_m = parseInt(inputs.substr(4,2)) - 1;
+	let std_d = parseInt(inputs.substr(6));
+	let std = new Date(std_y, std_m, std_d);
+	
+	let inp_y = parseInt(date_birth.substr(0,4));
+	let inp_m = parseInt(date_birth.substr(4,2)) - 1;
+	let inp_d = parseInt(date_birth.substr(6));
+	let inp = new Date(inp_y, inp_m, inp_d+1);
+	
+	// 초 단위로 비교하여 날짜 구하기(getTime()은 밀리초로 가져와서 
+	// * 1000 => 초, * 60 => 분, *60 => 시, *24 => 일, *30 => 월, * 12 => 년 으로 변경해야된다.
+	let dif = std.getTime() - inp.getTime();
+	dif = Math.floor(dif / (1000*60*60*24*30*12));
+	if(dif < 0) dif=0;
+	
+	// 결과
+	let result = "";
+	result = dif + "세";
+	document.querySelector(".date_birth").innerHTML = result;
+}
+
+// 초기화
+function res() {
+	let inputs = document.querySelector(".inputs").value;
+	
+	// 형식
+	if(inputs.length != 8) {
+		alert("기준일 입력하세요");
+		document.querySelector(".inputs").focus();
+		return;
+	}
+	
+	// 입력한 값들 모두 빈칸으로 초기화
+	document.querySelector(".inputs").value = "";
+	
+	document.querySelector(".inputs_date_after").value = "";
+	document.querySelector(".date_after").innerHTML = "";
+	
+	document.querySelector(".inputs_reach").value = "";
+	document.querySelector(".reach").innerHTML = "";
+	
+	document.querySelector(".inputs_date_birth").value = "";
+	document.querySelector(".date_birth").innerHTML = "";
+}
+
+</script>
+
+</head>
+
+
+<body>
+
+<div class="box">
+	<p>기준일로부터</p>
+	<input type="text" class="inputs" placeholder="예시 : 20220329">
+	<button type="button" class="reset" onclick="res();">초기화</button>
+</div>
+
+<div class="box">
+	<p>기준일로부터</p>
+	<p>
+		<input type="text" class="inputs_date_after"> 일째 되는 날은 ? 
+		<button type="button" class="btn" onclick="click_date_after();">계산</button>
+		<span class="date_after"></span>
+	</p>
+	
+	<p>
+		<input type="text" class="inputs_reach" placeholder="예시 : 20220510"> 까지 며칠 ? 
+		<button type="button" class="btn" onclick="click_reach();">계산</button>
+		<span class="reach"></span>
+	</p>
+	
+	<p>*기준일을 1일로 계산</p>
+</div> <hr>
+
+<div class="box">
+	<p>생년월일</p>
+	<input type="text" class="inputs_date_birth"> 나이는 ? 
+	<button type="button" class="btn" onclick="click_date_birth();">계산</button>
+	<span class="date_birth"></span>
+</div>
+
+
+</body>
+</html>
