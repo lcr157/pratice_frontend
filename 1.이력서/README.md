@@ -7,5 +7,5 @@
 ![image](https://user-images.githubusercontent.com/44182633/163672975-1f0e688f-10c5-4870-beef-4fc1c006b321.png)
 
   
-<b>주요 태그로는 table과 tr, th, td를 이용하여 작성</b> 하였습니다.
+<b>주요 태그로는 table과 tr, th, td를 이용하여 작성</b>하였습니다. </br>
 CSS는 resume.css라는 파일로 따로 빼서 작성하였습니다.
